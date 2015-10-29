@@ -6,6 +6,7 @@ class Gtkx336 < Formula
 
   option :universal
   option "with-quartz-relocation", "Build with quartz relocation support"
+  option "enable-debug", "Enable debugging"
 
   depends_on "pkg-config" => :build
   depends_on "gdk-pixbuf"
@@ -16,14 +17,12 @@ class Gtkx336 < Formula
   depends_on "gsettings-desktop-schemas" => :recommended
   depends_on "pango"
   depends_on "glib"
-  # depends_on "cairo"
   depends_on "hicolor-icon-theme"
 
   def install
     ENV.universal_binary if build.universal?
 
     args = %W[
-      --disable-debug
       --disable-dependency-tracking
       --prefix=#{prefix}
       --disable-glibtest
@@ -34,6 +33,7 @@ class Gtkx336 < Formula
     ]
 
     args << "--enable-quartz-relocation" if build.with?("quartz-relocation")
+    args << "--disable-debug" unless build.with?("enable-debug")
 
     system "./configure", *args
     # necessary to avoid gtk-update-icon-cache not being found during make install
