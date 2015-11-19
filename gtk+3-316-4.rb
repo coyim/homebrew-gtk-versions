@@ -33,7 +33,7 @@ class Gtkx33164 < Formula
     ]
 
     args << "--enable-quartz-relocation" if build.with?("quartz-relocation")
-    args << "--disable-debug" unless build.with?("enable-debug")
+    args << "--enable-debug=yes" if build.with?("enable-debug")
 
     system "./configure", *args
     # necessary to avoid gtk-update-icon-cache not being found during make install
